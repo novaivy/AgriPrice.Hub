@@ -2,8 +2,8 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthContext';
 import { ThemeProvider } from './contexts/ThemeContext';
-import Navbar from './components/Navbar';
-import Footer from './components/Footer'; 
+import Navbar from './components/layout/Navbar';
+import Footer from './components/layout/Footer'; 
 import Home from './pages/Home';
 <<<<<<< HEAD
 import Login from './pages/auth/Login';

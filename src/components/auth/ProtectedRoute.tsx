@@ -1,6 +1,6 @@
 // src/components/ProtectedRoute.tsx – works with mock auth (no backend)
 import { Navigate } from 'react-router-dom';
-import { useAuth } from '../contexts/AuthContext';
+import { useAuth } from '../../contexts/AuthContext';
 
 export default function ProtectedRoute({
   children,

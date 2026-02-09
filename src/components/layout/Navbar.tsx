@@ -1,7 +1,7 @@
 // src/components/Navbar.tsx
 import { Link, useLocation } from 'react-router-dom';
-import { useAuth } from '../contexts/AuthContext';
-import { useTheme } from '../contexts/ThemeContext';
+import { useAuth } from '../../contexts/AuthContext';
+import { useTheme } from '../../contexts/ThemeContext';
 
 export default function Navbar() {
   const { user, signOut } = useAuth();
@@ -32,7 +32,7 @@ export default function Navbar() {
 
   return (
     <nav style={{
-      backgroundColor: isDarkMode ? '#1a1a1a' : '#2e7d32',
+      backgroundColor: isDarkMode ? '#01290767' : '#2e7d32',
       padding: '1rem 2rem',
       color: 'white',
       display: 'flex',
