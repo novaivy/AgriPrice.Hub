@@ -1,7 +1,7 @@
 // src/pages/Login.tsx – Updated Login page with role selection
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import './pages.css';
+import './../pages.css';
 export default function Login() {
   const [formData, setFormData] = useState({
     email: '',

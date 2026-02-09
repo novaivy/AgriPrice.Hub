@@ -5,8 +5,7 @@ import LowStockAlert from './components/LowStockAlert';
 import RecentProducts from './components/RecentProducts';
 import PurchaseRequestsPreview from './components/PurchaseRequestsPreview';
 
-import { useNavigate } from 'react-router-dom';
-import './AgroDealerDashboard.css';
+
 
 
 export default function AgroDealerDashboard() {

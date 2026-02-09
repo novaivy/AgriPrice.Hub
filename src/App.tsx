@@ -5,17 +5,17 @@ import { ThemeProvider } from './contexts/ThemeContext';
 import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer'; 
 import Home from './pages/Home';
-<<<<<<< HEAD
 import Login from './pages/auth/Login';
 import Signup from './pages/auth/Signup';
-import Dashboard from './pages/Dashboard';
-import ProtectedRoute from './components/ProtectedRoute';
-import './App.css';
-=======
-import Login from './pages/Login';
-import Signup from './pages/Signup';
-import './App.css'; // Make sure to import App.css
->>>>>>> be79220bf6fb6f88928c898c74dcb1b716dffbb0
+import AgroDealerDashboard from './pages/agrodealer/AgroDealerDashboard';
+import AddProduct from './pages/agrodealer/AddProduct';
+import ProductCatalog from './pages/agrodealer/ProductCatalog';
+import StockManagement from './pages/agrodealer/StockManagement';
+import PurchaseRequests from './pages/agrodealer/PurchaseRequests';
+import ShopProfile from './pages/agrodealer/ShopProfile';
+import DealerInsights from './pages/agrodealer/DealerInsights';
+import Notifications from './pages/agrodealer/Notifications';
+
 
 function App() {
   return (
@@ -30,6 +30,14 @@ function App() {
                 <Route path="/login" element={<Login />} />
                 <Route path="/signup" element={<Signup />} />
                 <Route path="*" element={<Navigate to="/" replace />} />
+                <Route path="/agrodealer/dashboard" element={<AgroDealerDashboard />} />
+                <Route path="/agrodealer/add-product" element={<AddProduct />} />
+                <Route path="/agrodealer/products" element={<ProductCatalog />} />
+                <Route path="/agrodealer/stock" element={<StockManagement />} />
+                <Route path="/agrodealer/requests" element={<PurchaseRequests />} />
+                <Route path="/agrodealer/profile" element={<ShopProfile />} />
+                <Route path="/agrodealer/insights" element={<DealerInsights />} />
+                <Route path="/agrodealer/notifications" element={<Notifications />} />
               </Routes>
             </main>
             <Footer />

@@ -1,7 +1,7 @@
 // src/pages/Signup.tsx - Simplified signup form with role highlighting
 import { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import './pages.css';
+import './../pages.css';
 
 export default function Signup() {
   const location = useLocation();

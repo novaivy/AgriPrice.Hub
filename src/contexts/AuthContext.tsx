@@ -6,6 +6,7 @@ export interface MockUser {
   email: string;
   full_name?: string;
   market?: string;
+  role?: string;
 }
 
 interface AuthContextType {
