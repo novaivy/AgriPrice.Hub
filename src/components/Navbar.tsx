@@ -1,9 +1,11 @@
 // src/components/Navbar.tsx
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
+import { useTheme } from '../contexts/ThemeContext';
 
 export default function Navbar() {
   const { user, signOut } = useAuth();
+  const { isDarkMode, toggleDarkMode } = useTheme();
   const location = useLocation();
 
   const isActive = (path: string) => location.pathname === path;
@@ -30,17 +32,17 @@ export default function Navbar() {
 
   return (
     <nav style={{
-      backgroundColor: '#2e7d32',
+      backgroundColor: isDarkMode ? '#1a1a1a' : '#2e7d32',
       padding: '1rem 2rem',
       color: 'white',
       display: 'flex',
       justifyContent: 'space-between',
       alignItems: 'center',
-      boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+      boxShadow: `0 2px 4px ${isDarkMode ? 'rgba(0,0,0,0.5)' : 'rgba(0,0,0,0.1)'}`,
     }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: '2rem' }}>
         <Link to="/" style={{ color: 'white', textDecoration: 'none', fontSize: '1.5rem', fontWeight: 'bold' }}>
-          🌾 Agri Market
+          🌾 Agri price
         </Link>
         
         {/* Navigation Links */}
@@ -48,17 +50,30 @@ export default function Navbar() {
           <Link to="/" style={linkStyle('/')}>
             Home
           </Link>
-          
-          {user && (
-            <Link to="/dashboard" style={linkStyle('/dashboard')}>
-              Dashboard
-            </Link>
-          )}
         </div>
       </div>
       
       {/* Right Side - Auth Links */}
       <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+        <button
+          onClick={toggleDarkMode}
+          style={{
+            background: 'transparent',
+            color: 'white',
+            border: '1px solid white',
+            padding: '0.5rem 0.75rem',
+            borderRadius: '4px',
+            cursor: 'pointer',
+            fontSize: '1rem',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.5rem',
+            transition: 'all 0.3s ease',
+          }}
+          title={isDarkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+        >
+          {isDarkMode ? '☀️' : '🌙'}
+        </button>
         {user ? (
           <>
             <span style={{ marginRight: '0.5rem', fontSize: '0.9rem' }}>

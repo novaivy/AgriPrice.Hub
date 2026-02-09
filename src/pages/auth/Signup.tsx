@@ -1,22 +1,16 @@
-// src/pages/Signup.tsx - Updated for multiple roles
+// src/pages/Signup.tsx - Simplified signup form with role highlighting
 import { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import './Pages.css';
+import './pages.css';
 
 export default function Signup() {
   const location = useLocation();
   const navigate = useNavigate();
-  const [userType, setUserType] = useState<'officer' | 'dealer' | 'farmer'>('officer');
+  const [userType, setUserType] = useState<'officer' | 'dealer' | 'farmer'>('farmer');
   
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
-    phone: '',
-    location: '',
-    market: '',
-    businessName: '',
-    farmSize: '',
-    crops: '',
     password: '',
     confirmPassword: ''
   });
@@ -29,14 +23,14 @@ export default function Signup() {
     const params = new URLSearchParams(location.search);
     const type = params.get('type');
     
-    if (type === 'dealer' || type === 'farmer') {
+    if (type === 'dealer' || type === 'farmer' || type === 'officer') {
       setUserType(type);
     } else {
-      setUserType('officer');
+      setUserType('farmer');
     }
   }, [location]);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData({
       ...formData,
@@ -78,12 +72,9 @@ export default function Signup() {
       // Simulate API call
       await new Promise(resolve => setTimeout(resolve, 1500));
       
-      console.log('Registration data:', {
-        userType,
-        ...formData
-      });
+      console.log('Registration data:', formData);
       
-      // Redirect to login or dashboard
+      // Redirect to login
       navigate('/login');
     } catch (error) {
       console.error('Registration error:', error);
@@ -92,44 +83,6 @@ export default function Signup() {
       setLoading(false);
     }
   };
-
-  const handleFileUpload = () => {
-    // File upload logic
-    const input = document.createElement('input');
-    input.type = 'file';
-    input.accept = '.jpg,.jpeg,.png,.pdf';
-    input.onchange = (e: any) => {
-      const file = e.target.files[0];
-      if (file) {
-        console.log('File selected:', file.name);
-        // Handle file upload here
-      }
-    };
-    input.click();
-  };
-
-  const markets = [
-    'Central Market District A',
-    'Northern Agricultural Hub',
-    'Southern Trade Center',
-    'Eastern Farmers Market',
-    'Western Distribution Center',
-    'Coastal Agricultural Exchange',
-    'Midland Produce Market'
-  ];
-
-  const crops = [
-    'Wheat',
-    'Rice',
-    'Corn',
-    'Soybeans',
-    'Cotton',
-    'Vegetables',
-    'Fruits',
-    'Coffee',
-    'Tea',
-    'Spices'
-  ];
 
   return (
     <div className="auth-page">
@@ -140,7 +93,7 @@ export default function Signup() {
           </Link>
           <div className="logo">
             <i className="fas fa-tractor"></i>
-            <span>AgriNetwork</span>
+            <span>Agri price</span>
           </div>
         </div>
 
@@ -167,8 +120,7 @@ export default function Signup() {
               </p>
             </div>
 
-            <form onSubmit={handleSubmit} className="auth-form">
-              {/* Common Fields for all users */}
+            <form onSubmit={handleSubmit} className={`auth-form form-${userType}`}>
               <div className="form-group">
                 <label htmlFor="fullName">Full Name *</label>
                 <input
@@ -200,208 +152,6 @@ export default function Signup() {
                 </div>
               </div>
 
-              <div className="form-group">
-                <label htmlFor="phone">Phone Number *</label>
-                <div className="input-wrapper">
-                  <input
-                    type="tel"
-                    id="phone"
-                    name="phone"
-                    placeholder="e.g. +1234567890"
-                    value={formData.phone}
-                    onChange={handleInputChange}
-                    required
-                    disabled={loading}
-                  />
-                  <i className="fas fa-phone"></i>
-                </div>
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="location">Location *</label>
-                <div className="input-wrapper">
-                  <input
-                    type="text"
-                    id="location"
-                    name="location"
-                    placeholder="City, State, Country"
-                    value={formData.location}
-                    onChange={handleInputChange}
-                    required
-                    disabled={loading}
-                  />
-                  <i className="fas fa-map-marker-alt"></i>
-                </div>
-              </div>
-
-              {/* Role-specific Fields */}
-              {userType === 'officer' && (
-                <>
-                  <div className="form-group">
-                    <label htmlFor="market">Assigned Market *</label>
-                    <div className="select-wrapper">
-                      <select
-                        id="market"
-                        name="market"
-                        value={formData.market}
-                        onChange={handleInputChange}
-                        required
-                        disabled={loading}
-                      >
-                        <option value="">Select your assigned market</option>
-                        {markets.map((market, index) => (
-                          <option key={index} value={market}>{market}</option>
-                        ))}
-                      </select>
-                      <i className="fas fa-chevron-down"></i>
-                    </div>
-                  </div>
-
-                  <div className="form-group">
-                    <label className="section-label">Government ID Verification *</label>
-                    <div className="id-upload-section">
-                      <div className="id-upload-box">
-                        <div className="upload-icon">
-                          <i className="fas fa-id-card"></i>
-                        </div>
-                        <p className="upload-title">Upload Official ID</p>
-                        <span className="file-types">JPG, PNG or PDF</span>
-                        <button 
-                          type="button" 
-                          className="btn-upload"
-                          onClick={handleFileUpload}
-                          disabled={loading}
-                        >
-                          <i className="fas fa-upload"></i> Choose File
-                        </button>
-                        <p className="upload-note">Clear photo of government-issued ID required for officer verification</p>
-                      </div>
-                    </div>
-                  </div>
-                </>
-              )}
-
-              {userType === 'dealer' && (
-                <>
-                  <div className="form-group">
-                    <label htmlFor="businessName">Business Name *</label>
-                    <input
-                      type="text"
-                      id="businessName"
-                      name="businessName"
-                      placeholder="Your business or shop name"
-                      value={formData.businessName}
-                      onChange={handleInputChange}
-                      required
-                      disabled={loading}
-                    />
-                  </div>
-
-                  <div className="form-group">
-                    <label htmlFor="market">Primary Market Area *</label>
-                    <div className="select-wrapper">
-                      <select
-                        id="market"
-                        name="market"
-                        value={formData.market}
-                        onChange={handleInputChange}
-                        required
-                        disabled={loading}
-                      >
-                        <option value="">Select your primary market</option>
-                        {markets.map((market, index) => (
-                          <option key={index} value={market}>{market}</option>
-                        ))}
-                      </select>
-                      <i className="fas fa-chevron-down"></i>
-                    </div>
-                  </div>
-
-                  <div className="form-group">
-                    <label className="section-label">Business License (Optional)</label>
-                    <div className="id-upload-section">
-                      <div className="id-upload-box">
-                        <div className="upload-icon">
-                          <i className="fas fa-file-contract"></i>
-                        </div>
-                        <p className="upload-title">Upload Business License</p>
-                        <span className="file-types">JPG, PNG or PDF</span>
-                        <button 
-                          type="button" 
-                          className="btn-upload"
-                          onClick={handleFileUpload}
-                          disabled={loading}
-                        >
-                          <i className="fas fa-upload"></i> Choose File
-                        </button>
-                        <p className="upload-note">Upload business license for verified dealer status (optional)</p>
-                      </div>
-                    </div>
-                  </div>
-                </>
-              )}
-
-              {userType === 'farmer' && (
-                <>
-                  <div className="form-group">
-                    <label htmlFor="farmSize">Farm Size (Acres) *</label>
-                    <input
-                      type="text"
-                      id="farmSize"
-                      name="farmSize"
-                      placeholder="e.g., 10 acres"
-                      value={formData.farmSize}
-                      onChange={handleInputChange}
-                      required
-                      disabled={loading}
-                    />
-                  </div>
-
-                  <div className="form-group">
-                    <label htmlFor="crops">Primary Crops *</label>
-                    <div className="select-wrapper">
-                      <select
-                        id="crops"
-                        name="crops"
-                        value={formData.crops}
-                        onChange={handleInputChange}
-                        required
-                        disabled={loading}
-                      >
-                        <option value="">Select your main crops</option>
-                        {crops.map((crop, index) => (
-                          <option key={index} value={crop}>{crop}</option>
-                        ))}
-                      </select>
-                      <i className="fas fa-chevron-down"></i>
-                    </div>
-                  </div>
-
-                  <div className="form-group">
-                    <label className="section-label">Farmer ID (Optional)</label>
-                    <div className="id-upload-section">
-                      <div className="id-upload-box">
-                        <div className="upload-icon">
-                          <i className="fas fa-id-card"></i>
-                        </div>
-                        <p className="upload-title">Upload Farmer ID</p>
-                        <span className="file-types">JPG, PNG or PDF</span>
-                        <button 
-                          type="button" 
-                          className="btn-upload"
-                          onClick={handleFileUpload}
-                          disabled={loading}
-                        >
-                          <i className="fas fa-upload"></i> Choose File
-                        </button>
-                        <p className="upload-note">Upload any farmer identification for verification (optional)</p>
-                      </div>
-                    </div>
-                  </div>
-                </>
-              )}
-
-              {/* Common Password Fields */}
               <div className="form-group">
                 <label htmlFor="password">Create Password *</label>
                 <div className="password-input-wrapper">
@@ -455,19 +205,6 @@ export default function Signup() {
                 </div>
               </div>
 
-              <div className="form-group terms-agreement">
-                <input 
-                  type="checkbox" 
-                  id="terms" 
-                  required 
-                  disabled={loading}
-                />
-                <label htmlFor="terms">
-                  By signing up, you agree to our <Link to="/terms">Terms of Service</Link> and 
-                  <Link to="/privacy"> Privacy Policy</Link>
-                </label>
-              </div>
-
               <button 
                 type="submit" 
                 className={`btn btn-primary btn-auth ${userType}`}
@@ -488,12 +225,11 @@ export default function Signup() {
                   Already have an account? <Link to="/login">Log In</Link>
                 </p>
                 <div className="switch-role">
-                  <p>Not a {userType === 'officer' ? 'Market Officer' : 
-                              userType === 'dealer' ? 'Agro-Dealer' : 'Farmer'}?</p>
+                  <p>Want to join as a different role?</p>
                   <div className="role-links">
-                    <Link to="/signup?type=officer">Join as Officer</Link>
-                    <Link to="/signup?type=dealer">Join as Dealer</Link>
-                    <Link to="/signup?type=farmer">Join as Farmer</Link>
+                    <Link to="/signup?type=officer">Market Officer</Link>
+                    <Link to="/signup?type=dealer">Agro-Dealer</Link>
+                    <Link to="/signup?type=farmer">Farmer</Link>
                   </div>
                 </div>
               </div>

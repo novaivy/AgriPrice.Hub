@@ -1,9 +1,41 @@
+/* CSS Variables for Theme */
+:root[data-theme="light"] {
+  --bg-primary: #ffffff;
+  --bg-secondary: #f5f5f5;
+  --text-primary: #1a1a1a;
+  --text-secondary: #666666;
+  --border-color: rgba(0, 0, 0, 0.1);
+  --shadow-color: rgba(0, 0, 0, 0.1);
+}
+
+:root[data-theme="dark"] {
+  --bg-primary: #1a1a1a;
+  --bg-secondary: #2d2d2d;
+  --text-primary: #ffffff;
+  --text-secondary: #b0b0b0;
+  --border-color: rgba(255, 255, 255, 0.1);
+  --shadow-color: rgba(0, 0, 0, 0.5);
+}
+
 /* App Container - ensures navbar and footer stay visible */
 .app-container {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   width: 100%;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.app-container.light-mode {
+  background-color: #ffffff;
+  color: #1a1a1a;
+}
+
+.app-container.dark-mode {
+  background-color: #1a1a1a;
+  color: #ffffff;
 }
 
 /* Main Content Area */
@@ -11,6 +43,8 @@
   flex: 1;
   width: 100%;
   min-height: 0; /* allow flex child to shrink if needed */
+  background-color: var(--bg-primary);
+  transition: background-color 0.3s ease;
 }
 
 /* Legacy styles - keeping for compatibility */
@@ -54,5 +88,18 @@
 }
 
 .read-the-docs {
-  color: #888;
+  color: var(--text-secondary);
 }
+/* src/App.css */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.main-content {
+  flex: 1 0 auto; /* This makes the main content grow and push footer down */
+  width: 100%;
+}
+/* App.css - Add these global styles */
+

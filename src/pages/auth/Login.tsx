@@ -1,4 +1,4 @@
-// src/pages/Login.tsx – Updated Login page
+// src/pages/Login.tsx – Updated Login page with role selection
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import './pages.css';
@@ -6,17 +6,26 @@ export default function Login() {
   const [formData, setFormData] = useState({
     email: '',
     password: '',
+    role: 'farmer',
     rememberMe: false
   });
 
   const [loading, setLoading] = useState(false);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value, type, checked } = e.target;
-    setFormData({
-      ...formData,
-      [name]: type === 'checkbox' ? checked : value
-    });
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value, type } = e.target;
+    if (type === 'checkbox') {
+      const checked = (e.target as HTMLInputElement).checked;
+      setFormData({
+        ...formData,
+        [name]: checked
+      });
+    } else {
+      setFormData({
+        ...formData,
+        [name]: value
+      });
+    }
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -40,7 +49,7 @@ export default function Login() {
           </Link>
           <div className="logo">
             <i className="fas fa-tractor"></i>
-            <span>AgriNetwork</span>
+            <span>Agri price</span>
           </div>
         </div>
 
@@ -49,11 +58,29 @@ export default function Login() {
             <div className="auth-card-header">
               <h1>Welcome back</h1>
               <p className="auth-subtitle">
-                Access your certified market officer account to manage your agricultural network.
+                Log in to your Agri price account to access your dashboard
               </p>
             </div>
 
-            <form onSubmit={handleSubmit} className="auth-form">
+            <form onSubmit={handleSubmit} className={`auth-form form-${formData.role}`}>
+              <div className="form-group">
+                <label htmlFor="role">Select Your Role *</label>
+                <div className="select-wrapper">
+                  <select
+                    id="role"
+                    name="role"
+                    value={formData.role}
+                    onChange={handleInputChange}
+                    required
+                    disabled={loading}
+                  >
+                    <option value="farmer">Farmer</option>
+                    <option value="dealer">Agro-Dealer</option>
+                    <option value="officer">Market Officer</option>
+                  </select>
+                  <i className="fas fa-chevron-down"></i>
+                </div>
+              </div>
               <div className="form-group">
                 <label htmlFor="email">Email Address</label>
                 <div className="input-wrapper">
@@ -104,7 +131,7 @@ export default function Login() {
 
               <button 
                 type="submit" 
-                className="btn btn-primary btn-auth"
+                className={`btn btn-primary btn-auth ${formData.role}`}
                 disabled={loading}
               >
                 {loading ? (
@@ -117,10 +144,10 @@ export default function Login() {
               </button>
 
               <div className="auth-divider">
-                <span>New to AgriNetwork?</span>
+                <span>New to Agri price?</span>
               </div>
 
-              <Link to="/signup" className="btn btn-outline btn-auth">
+              <Link to={`/signup?type=${formData.role}`} className={`btn btn-outline btn-auth btn-${formData.role}`}>
                 <i className="fas fa-user-plus"></i> Create Account
               </Link>
 

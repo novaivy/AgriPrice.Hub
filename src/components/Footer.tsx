@@ -1,54 +1,61 @@
-// src/components/Footer.tsx
 import { Link } from 'react-router-dom';
+import './Footer.css';
 
-export default function Footer() {
+const Footer = () => {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer style={{
-      backgroundColor: '#1b5e20',
-      color: 'white',
-      padding: '2rem',
-      marginTop: 'auto',
-      textAlign: 'center',
-    }}>
-      <div style={{
-        maxWidth: '1200px',
-        margin: '0 auto',
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '1rem',
-      }}>
-        <div style={{
-          display: 'flex',
-          justifyContent: 'center',
-          gap: '2rem',
-          flexWrap: 'wrap',
-        }}>
-          <Link to="/" style={{ color: 'white', textDecoration: 'none' }}>
-            Home
-          </Link>
-          <Link to="/login" style={{ color: 'white', textDecoration: 'none' }}>
-            Login
-          </Link>
-          <Link to="/signup" style={{ color: 'white', textDecoration: 'none' }}>
-            Sign Up
-          </Link>
+    <footer className="footer">
+      <div className="footer-container">
+        <div className="footer-section">
+          <div className="footer-logo">
+            <i className="fas fa-tractor"></i>
+            <span>Agri Price</span>
+          </div>
+          <p className="footer-description">
+            Connecting farmers, dealers, and market officers for transparent agricultural trading.
+          </p>
         </div>
-        <div style={{
-          borderTop: '1px solid rgba(255, 255, 255, 0.2)',
-          paddingTop: '1rem',
-          fontSize: '0.9rem',
-          opacity: 0.9,
-        }}>
-          <p style={{ margin: 0 }}>
-            © {currentYear} Agri Market Management System. All rights reserved.
-          </p>
-          <p style={{ margin: '0.5rem 0 0 0', fontSize: '0.85rem', opacity: 0.8 }}>
-            Streamlining agricultural market transactions
-          </p>
+
+        <div className="footer-section">
+          <h3>Quick Links</h3>
+          <ul className="footer-links">
+            <li><Link to="/">Home</Link></li>
+            <li><Link to="/market-prices">Market Prices</Link></li>
+            <li><Link to="/about">About Us</Link></li>
+            <li><Link to="/contact">Contact</Link></li>
+          </ul>
+        </div>
+
+        <div className="footer-section">
+          <h3>Account</h3>
+          <ul className="footer-links">
+            <li><Link to="/login">Login</Link></li>
+            <li><Link to="/signup">Sign Up</Link></li>
+            <li><Link to="/dashboard">Dashboard</Link></li>
+          </ul>
+        </div>
+
+        <div className="footer-section">
+          <h3>Roles</h3>
+          <ul className="footer-links">
+            <li><Link to="/signup?type=farmer">For Farmers</Link></li>
+            <li><Link to="/signup?type=dealer">For Dealers</Link></li>
+            <li><Link to="/signup?type=officer">For Officers</Link></li>
+          </ul>
+        </div>
+      </div>
+
+      <div className="footer-bottom">
+        <p>&copy; {currentYear} Agri Price. All rights reserved.</p>
+        <div className="footer-legal">
+          <Link to="/terms">Terms of Service</Link>
+          <Link to="/privacy">Privacy Policy</Link>
+          <Link to="/cookies">Cookie Policy</Link>
         </div>
       </div>
     </footer>
   );
-}
+};
+
+export default Footer; 
