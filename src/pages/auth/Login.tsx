@@ -1,8 +1,11 @@
-// src/pages/Login.tsx – Updated Login page with role selection
+// src/pages/auth/Login.tsx
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './../pages.css';
+
 export default function Login() {
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -12,31 +15,37 @@ export default function Login() {
 
   const [loading, setLoading] = useState(false);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     const { name, value, type } = e.target;
-    if (type === 'checkbox') {
-      const checked = (e.target as HTMLInputElement).checked;
-      setFormData({
-        ...formData,
-        [name]: checked
-      });
-    } else {
-      setFormData({
-        ...formData,
-        [name]: value
-      });
-    }
+
+    setFormData(prev => ({
+      ...prev,
+      [name]:
+        type === 'checkbox'
+          ? (e.target as HTMLInputElement).checked
+          : value
+    }));
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
+
     console.log('Login form submitted:', formData);
-    
-    // Simulate login process
+
+    // Simulate async login (replace with real auth later)
     setTimeout(() => {
       setLoading(false);
-      // Handle login logic here
+
+      // ✅ Redirect based on EXISTING routes
+      if (formData.role === 'dealer') {
+        navigate('/agrodealer/dashboard');
+      } else {
+        // Temporary fallback until farmer/officer dashboards exist
+        navigate('/');
+      }
     }, 1000);
   };
 
@@ -71,8 +80,8 @@ export default function Login() {
                     name="role"
                     value={formData.role}
                     onChange={handleInputChange}
-                    required
                     disabled={loading}
+                    required
                   >
                     <option value="farmer">Farmer</option>
                     <option value="dealer">Agro-Dealer</option>
@@ -81,6 +90,7 @@ export default function Login() {
                   <i className="fas fa-chevron-down"></i>
                 </div>
               </div>
+
               <div className="form-group">
                 <label htmlFor="email">Email Address</label>
                 <div className="input-wrapper">
@@ -88,11 +98,10 @@ export default function Login() {
                     type="email"
                     id="email"
                     name="email"
-                    placeholder="you@example.com"
                     value={formData.email}
                     onChange={handleInputChange}
-                    required
                     disabled={loading}
+                    required
                   />
                   <i className="fas fa-envelope"></i>
                 </div>
@@ -105,11 +114,10 @@ export default function Login() {
                     type="password"
                     id="password"
                     name="password"
-                    placeholder="Enter your password"
                     value={formData.password}
                     onChange={handleInputChange}
-                    required
                     disabled={loading}
+                    required
                   />
                   <i className="fas fa-lock"></i>
                 </div>
@@ -129,8 +137,8 @@ export default function Login() {
                 </div>
               </div>
 
-              <button 
-                type="submit" 
+              <button
+                type="submit"
                 className={`btn btn-primary btn-auth ${formData.role}`}
                 disabled={loading}
               >
@@ -147,15 +155,12 @@ export default function Login() {
                 <span>New to Agri price?</span>
               </div>
 
-              <Link to={`/signup?type=${formData.role}`} className={`btn btn-outline btn-auth btn-${formData.role}`}>
+              <Link
+                to={`/signup?type=${formData.role}`}
+                className={`btn btn-outline btn-auth btn-${formData.role}`}
+              >
                 <i className="fas fa-user-plus"></i> Create Account
               </Link>
-
-              <div className="auth-footer">
-                <p>
-                  Need help? <Link to="/support">Contact Support</Link>
-                </p>
-              </div>
             </form>
           </div>
         </div>

@@ -29,7 +29,6 @@ function App() {
                 <Route path="/" element={<Home />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/signup" element={<Signup />} />
-                <Route path="*" element={<Navigate to="/" replace />} />
                 <Route path="/agrodealer/dashboard" element={<AgroDealerDashboard />} />
                 <Route path="/agrodealer/add-product" element={<AddProduct />} />
                 <Route path="/agrodealer/products" element={<ProductCatalog />} />
@@ -38,6 +37,7 @@ function App() {
                 <Route path="/agrodealer/profile" element={<ShopProfile />} />
                 <Route path="/agrodealer/insights" element={<DealerInsights />} />
                 <Route path="/agrodealer/notifications" element={<Notifications />} />
+                 <Route path="*" element={<Navigate to="/" replace />} />
               </Routes>
             </main>
             <Footer />
